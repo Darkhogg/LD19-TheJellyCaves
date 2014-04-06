@@ -1,0 +1,55 @@
+<project name="jelly-caves" default="jar">
+
+  <property name="dir.src" value="src" />
+  <property name="dir.res" value="res" />
+  <property name="dir.build" value="build" />
+  <property name="dir.dist" value="dist" />
+
+  <property name="file.jar" value="${dir.dist}/jelly-caves.jar" />
+
+  <property name="class.main" value="es.darkhogg.ld19.GuiWrapper" />
+
+  <!-- Create the build directory -->
+  <target name="-mkdir-build">
+    <mkdir dir="${dir.build}" />
+  </target>
+
+  <!-- Create the distribution directory -->
+  <target name="-mkdir-dist">
+    <mkdir dir="${dir.dist}" />
+  </target>
+
+  <!-- Compiles everything from the source directory to the build directory -->
+  <target name="compile" depends="-mkdir-build">
+    <javac
+      srcdir="${dir.src}"
+      destdir="${dir.build}"
+      source="1.7"
+      target="1.7" />
+  </target>
+
+  <!-- Copies everything from the resources directory to the build directory -->
+  <target name="-resources" depends="-mkdir-build">
+    <copy todir="${dir.build}">
+      <fileset dir="${dir.res}" />
+    </copy>
+  </target>
+
+  <!-- Create a runnable JAR with everything -->
+  <target name="jar" depends="compile, -resources, -mkdir-dist">
+    <jar destfile="${file.jar}" basedir="${dir.build}">
+      <manifest>
+        <attribute name="Main-Class" value="${class.main}" />
+      </manifest>
+    </jar>
+
+    <chmod file="${file.jar}" perm="u+x" />
+  </target>
+
+
+  <!-- Clean old compilations -->
+  <target name="clean">
+    <delete dir="${dir.build}" />
+    <delete dir="${dir.dist}" />
+  </target>
+</project>
