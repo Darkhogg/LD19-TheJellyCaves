@@ -59,6 +59,8 @@ public enum Sprite {
 	
 
 	private Sprite ( URL url, int x, int y, int w, int h ) {
+        System.out.printf("Loading Sprite.%s from '%s'...%n", this, url);
+	    
 		BufferedImage image = null;
 		
 		try {
