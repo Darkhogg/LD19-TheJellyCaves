@@ -3,3 +3,5 @@
 build/
 dest/
 bin/
+.classpath
+.project
