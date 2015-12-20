@@ -1,11 +1,18 @@
-<project name="jelly-caves" default="jar">
+<project name="jelly-caves" default="dist">
 
   <property name="dir.src" value="src" />
   <property name="dir.res" value="res" />
   <property name="dir.build" value="build" />
   <property name="dir.dist" value="dist" />
 
-  <property name="file.jar" value="${dir.dist}/jelly-caves.jar" />
+  <property name="filename.jar" value="jelly-caves.jar" />
+
+  <property name="filename.launcher.linux" value="jelly-caves.sh" />
+  <property name="filename.launcher.mac" value="jelly-caves.sh" />
+  <property name="filename.launcher.windows" value="jelly-caves.bat" />
+
+  <property name="file.jar" value="${dir.dist}/${filename.jar}" />
+  <property name="file.zip" value="${dir.dist}/jelly-caves.zip" />
 
   <property name="class.main" value="es.darkhogg.ld19.GuiWrapper" />
 
@@ -45,10 +52,22 @@
 
     <chmod file="${file.jar}" perm="u+x" />
   </target>
-  
+
   <!-- Create a JAR and run it -->
   <target name="run" depends="jar">
     <java jar="${file.jar}" fork="true" />
+  </target>
+
+  <!-- Pack the JAR in a ZIP with the launchers -->
+  <target name="dist" depends="jar">
+    <zip destfile="${file.zip}">
+      <fileset dir=".">
+        <include name="${filename.launcher.linux}" />
+        <include name="${filename.launcher.mac}" />
+        <include name="${filename.launcher.windows}" />
+      </fileset>
+      <fileset dir="${dir.dist}" includes="${filename.jar}"/>
+    </zip>
   </target>
 
 
